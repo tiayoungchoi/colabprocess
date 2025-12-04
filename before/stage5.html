@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Grade & Overview</title>
+  <style>
+    html {
+        background-image: url(background.webp);
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        height: 100vh;
+        margin: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 600px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .grade {
+      font-size: 48px;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #2c3e50;
+    }
+    .points {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+    .message {
+      font-size: 18px;
+      margin-top: 15px;
+      color: #34495e;
+    }
+    .overview {
+      margin-top: 25px;
+      text-align: left;
+      font-size: 16px;
+    }
+    .overview ul {
+      padding-left: 20px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      color: white;
+      background-color: #3498db;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎓 Your Final Grade</h2>
+    <div class="grade" id="gradeDisplay"></div>
+    <div class="points" id="pointsDisplay"></div>
+    <div class="message" id="messageDisplay"></div>
+
+    <div class="overview" id="overviewDisplay">
+      <h3>Your Choices Overview:</h3>
+      <ul id="choicesList"></ul>
+    </div>
+
+    <button onclick="restartGame()">Restart Game</button>
+  </div>
+
+  <script>
+    // Get total points
+    let points = parseInt(localStorage.getItem("points")) || 0;
+    document.getElementById("pointsDisplay").textContent = `Total Points: ${points}`;
+
+    // Determine grade
+    let grade = '';
+    let message = '';
+    if (points >= 12) {
+      grade = 'A';
+      message = "Excellent! You scored very high.";
+    } else if (points >= 9) {
+      grade = 'B';
+      message = "Good job! You scored above average.";
+    } else if (points >= 6) {
+      grade = 'C';
+      message = "Average performance. There's room to improve.";
+    } else if (points >= 3) {
+      grade = 'D';
+      message = "Below average. Try to improve your choices.";
+    } else {
+      grade = 'F';
+      message = "Poor score. You might want to rethink your decisions.";
+    }
+
+    document.getElementById("gradeDisplay").textContent = grade;
+    document.getElementById("messageDisplay").textContent = message;
+
+    // Retrieve choices from localStorage
+    const overviewList = document.getElementById("choicesList");
+
+    // Stage 1: Name, Gender, Age
+    const name = localStorage.getItem("name") || "N/A";
+    const gender = localStorage.getItem("gender") || "N/A";
+    const age = localStorage.getItem("age") || "N/A";
+    overviewList.innerHTML += `<li>Stage 1: Name - ${name}, Gender - ${gender}, Age - ${age}</li>`;
+
+    // Stage 2: Body type
+    const bodyChoice = localStorage.getItem("bodyChoice") || "N/A";
+    overviewList.innerHTML += `<li>Stage 2: Body Type - ${bodyChoice}</li>`;
+
+    // Stage 3: Major & Job
+    const major = localStorage.getItem("major") || "N/A";
+    const job = localStorage.getItem("job") || "N/A";
+    overviewList.innerHTML += `<li>Stage 3: Major - ${major}, Job - ${job}</li>`;
+
+    // Stage 4: Houses, Cars, Debt
+    const houses = localStorage.getItem("houses") || "0";
+    const cars = localStorage.getItem("cars") || "0";
+    const debt = localStorage.getItem("debt") === "true" ? "Yes" : "No";
+    overviewList.innerHTML += `<li>Stage 4: Houses - ${houses}, Cars - ${cars}, Debt - ${debt}</li>`;
+
+    // Optional: Restart Game
+    function restartGame() {
+      localStorage.clear();
+      window.location.href = "stage1.html";
+    }
+  </script>
+</body>
+</html>

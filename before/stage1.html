@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Points Checker - Stage 1</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    html {
+      background-image: url(background.webp);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      /* remove flex centering */
+    }
+
+    .container {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border: 3px solid blue;
+      color: blue;
+      /* top-left positioning */
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    input,
+    select {
+      margin-left: 10vw;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 350px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      color: black;
+    }
+
+    input::placeholder {
+      color: black;
+    }
+
+    button {
+      padding: 10px 18px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: blue;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .profile {
+      border: 1px solid blue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Profile</h2>
+    <p>Enter your details below:</p> <img class="profile" src="profile.webp" alt="profile picture"> <input type="text"
+      id="nameInput" placeholder="Your name"> <br> <select id="genderSelect">
+      <option value="">Select gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select> <br> <input type="number" id="ageInput" placeholder="Your age" min="0"> <br> <button id="submitBtn"
+      onclick="submitAndGoNext()">Submit</button>
+  </div>
+  <script> function submitAndGoNext() { const name = document.getElementById("nameInput").value.trim(); const gender = document.getElementById("genderSelect").value; const age = parseInt(document.getElementById("ageInput").value); let points = 0; if (!name || !gender || isNaN(age) || age < 0) { return; } if (age > 35) points -= 1; else if (age < 30) points += 2; localStorage.setItem("name", name); localStorage.setItem("gender", gender); localStorage.setItem("age", age); localStorage.setItem("points", points); window.location.href = "stage2.html"; } </script>
+</body>
+
+</html>

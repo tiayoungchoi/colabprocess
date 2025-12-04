@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 4 - Financial Status</title>
+  <style>
+    html {
+        background-image: url(background.webp);
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        height: 100vh;
+        margin: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    select, label {
+      padding: 8px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      color: white;
+      background-color: #3498db;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #nextBtn {
+      display: none;
+      background-color: #9b59b6;
+    }
+    #nextBtn:hover {
+      background-color: #8e44ad;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Stage 4 - Financial Status</h2>
+    <p id="pointsDisplay"></p>
+
+    <form id="financeForm">
+      <label for="houseSelect">Number of houses (+2 points each):</label><br>
+      <select id="houseSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+
+      <br>
+
+      <label for="carSelect">Number of cars (+2 points each):</label><br>
+      <select id="carSelect">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+
+      <br>
+
+      <label><input type="checkbox" id="debt"> I have debt (-1 point)</label>
+
+      <br>
+      <button type="button" onclick="calculatePoints()">Submit</button>
+      <button type="button" id="nextBtn" onclick="goNext()">Next</button>
+    </form>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    // Load points from previous stages
+    let points = parseInt(localStorage.getItem("points")) || 0;
+    document.getElementById("pointsDisplay").textContent =
+      `Your current total points: ${points} point${Math.abs(points) !== 1 ? 's' : ''}.`;
+
+    function calculatePoints() {
+      const houses = parseInt(document.getElementById("houseSelect").value);
+      const cars = parseInt(document.getElementById("carSelect").value);
+      const hasDebt = document.getElementById("debt").checked;
+
+      let pointsChange = 0;
+
+      // Calculate points from houses and cars
+      pointsChange += houses * 2;
+      pointsChange += cars * 2;
+
+      // Points from debt
+      if (hasDebt) pointsChange -= 1;
+
+      points += pointsChange;
+      localStorage.setItem("points", points);
+
+      document.getElementById("result").textContent =
+        `You selected: ${houses} house(s), ${cars} car(s), Debt: ${hasDebt ? 'Yes' : 'No'}. Points change: ${pointsChange > 0 ? '+' : ''}${pointsChange}. Your FINAL total points: ${points}.`;
+
+      // Show Next button
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function goNext() {
+      window.location.href = "stage5.html";
+    }
+  </script>
+</body>
+</html>

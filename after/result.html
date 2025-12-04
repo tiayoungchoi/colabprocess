@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Results</title>
+
+<style>
+html {
+  background-image: url(background3.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@font-face {
+  font-family: gu;
+  src: url(ChosunGu.TTF);
+}
+
+body {
+  font-family: gu;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+.resultBox {
+  background: radial-gradient(circle, white, #feedf3);
+  padding: 4vh 4vw;
+  border-radius: 1.5vh;
+  box-shadow: 0 0 1.5vh #fab6df;
+  width: 60vw;
+  color: #fab6df;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.leftSection {
+  width: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.characterContainer {
+  position: relative;
+  width: 100vw;
+  height: 55vh;
+  overflow: hidden;
+  border-radius: 1vh;
+  border: 0.2vh solid #fab6df;
+  background: #fff0;
+}
+
+.characterContainer img {
+  position: absolute;
+  top: -60%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.7);
+  max-height: none;
+  pointer-events: none;
+}
+
+.rightSection {
+  width: 65%;
+  padding-left: 4vw;
+}
+
+.rightSection h2 {
+  text-align: center;
+  font-size: 3vh;
+  margin-bottom: 2vh;
+}
+
+.category {
+  margin-top: 2vh;
+}
+
+.category h3 {
+  font-size: 2.2vh;
+  border-bottom: 0.2vh solid #fab6df;
+  padding-bottom: 0.5vh;
+  margin-bottom: 1vh;
+}
+
+.category p {
+  font-size: 1.8vh;
+  margin: 0.5vh 0;
+}
+
+.finalGrade {
+  font-size: 2.4vh;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2vh;
+}
+
+#nextButton {
+  position: fixed;
+  width: 15vw;
+  right: 1vw;
+  bottom: 1vh;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.grade {
+  position: relative;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fab6df;
+}
+
+.grade:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: 125%;
+  transform: translateX(-50%);
+  background: #fab6df;
+  color: white;
+  padding: 0.5vh 1vw;
+  border-radius: 0.8vh;
+  white-space: nowrap;
+  font-size: 1.6vh;
+  box-shadow: 0 0 0.5vh rgba(0,0,0,0.2);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.grade::after {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#infoButton {
+  position: fixed;
+  top: 1vh;
+  right: 1vw;
+  width: 4vw;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#infoModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255,255,255,0.8); /* white overlay */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+#infoContent {
+  background: #fff;
+  padding: 3vh 3vw;
+  border-radius: 1vh;
+  width: 50vw;
+  max-width: 600px;
+  text-align: center;
+  color: #fab6df;
+  font-size: 1.8vh;
+  box-shadow: 0 0 1.5vh #fab6df;
+  position: relative;
+}
+
+#closeModal {
+  position: absolute;
+  top: 1vh;
+  right: 1vw;
+  font-size: 2vh;
+  cursor: pointer;
+  color: #fab6df;
+}
+</style>
+</head>
+
+<body>
+
+<div class="resultBox">
+
+  <div class="leftSection">
+    <div class="characterContainer">
+      <img id="characterBody" src="">
+      <img id="characterEyes" src="">
+    </div>
+  </div>
+
+  <div class="rightSection">
+    <h2>Final Results</h2>
+
+    <!-- Personal Info -->
+    <div class="category" id="personalInfo">
+      <h3>Personal Info</h3>
+      <p id="nameResult"></p>
+      <p id="genderResult"></p>
+      <p id="ageResult"></p>
+      <p>Grade: <span class="grade" id="ageGrade"></span></p>
+    </div>
+
+    <!-- Appearance -->
+    <div class="category" id="appearanceInfo">
+      <h3>Appearance</h3>
+      <p id="bodyTypeResult"></p>
+      <p>Grade: <span class="grade" id="bodyGrade"></span></p>
+    </div>
+
+    <!-- Education & Job -->
+    <div class="category" id="stage3Results">
+      <h3>Education & Job</h3>
+      <p id="educationResult"></p>
+      <p id="majorResult"></p>
+      <p id="jobResult"></p>
+      <p>Grade: <span class="grade" id="eduGrade"></span></p>
+    </div>
+
+    <!-- Financial Status -->
+    <div class="category" id="stage4Results">
+      <h3>Financial Status</h3>
+      <p id="housesResult"></p>
+      <p id="carsResult"></p>
+      <p id="debtResult"></p>
+      <p>Grade: <span class="grade" id="finGrade"></span></p>
+    </div>
+
+    <!-- Stage 5 – Fertility -->
+    <div class="category" id="stage5Results">
+      <h3>Fertility Assessment</h3>
+      <p id="plannedKidsResult"></p>
+      <p id="sexualActivityResult"></p>
+      <p id="attemptedResult"></p>
+      <p id="fertilityIssuesResult"></p>
+      <p>Grade: <span class="grade" id="fertilityGrade"></span></p>
+    </div>
+
+    <div class="finalGrade">
+      Final Average Grade: <span id="finalGrade"></span>
+    </div>
+
+  </div>
+
+</div>
+
+<img id="nextButton" src="next.webp" alt="Next">
+<img id="infoButton" src="info.webp" alt="Info">
+
+<div id="infoModal">
+  <div id="infoContent">
+    <span id="closeModal">&times;</span>
+    <h3>How Your Grades Are Calculated</h3>
+    <p>
+      Each category (Personal Info, Appearance, Education & Job, Financial Status, Fertility) is scored separately.<br>
+      Hover over each grade to see why you got it based on reproductive potential.<br><br>
+      Grades are combined to calculate your final average grade.
+    </p>
+  </div>
+</div>
+
+<script>
+// Character
+const body = localStorage.getItem('chosenBody');
+const eyes = localStorage.getItem('chosenEyes');
+if(body) document.getElementById("characterBody").src = body;
+if(eyes) document.getElementById("characterEyes").src = eyes;
+
+// Personal Info
+const age = parseInt(localStorage.getItem("userAge")) || 0;
+const userName = localStorage.getItem("userName") || "N/A";
+const userGender = localStorage.getItem("userGender") || "N/A";
+
+document.getElementById("nameResult").textContent = "Name: " + userName;
+document.getElementById("genderResult").textContent = "Gender: " + userGender;
+document.getElementById("ageResult").textContent = "Age: " + age;
+
+// Age grading
+let agePoints = 0;
+let ageTooltip = "";
+if(age >= 18 && age <= 35){ 
+    agePoints = 4; 
+    ageTooltip = "Ideal reproductive age."; 
+} else if((age >= 16 && age < 18) || (age > 35 && age <= 45)){ 
+    agePoints = 2; 
+    ageTooltip = "Still can reproduce but not ideal."; 
+} else { 
+    agePoints = 0; 
+    ageTooltip = "Too young or too old for reproduction."; 
+}
+
+// Appearance
+const bodyPoints = parseInt(localStorage.getItem("bodyPoints")) || 0;
+const weightText = localStorage.getItem("weightText") || "";
+const heightText = localStorage.getItem("heightText") || "";
+document.getElementById("bodyTypeResult").textContent = `Body: ${weightText}, ${heightText}`;
+
+// Grading helper
+function getRelativeGrade(points, minPoints, maxPoints){
+    const normalized = (points - minPoints) / (maxPoints - minPoints);
+    if(normalized >= 0.85) return "A";
+    else if(normalized >= 0.7) return "B";
+    else if(normalized >= 0.5) return "C";
+    else if(normalized >= 0.3) return "D";
+    else return "F";
+}
+
+// Personal Info Grade
+const personalGrade = getRelativeGrade(agePoints, 0, 4);
+const ageElement = document.getElementById("ageGrade");
+ageElement.textContent = personalGrade;
+ageElement.setAttribute("data-tooltip", ageTooltip);
+
+// Appearance Grade
+const appearanceGrade = getRelativeGrade(bodyPoints, -2, 2);
+const bodyElement = document.getElementById("bodyGrade");
+bodyElement.textContent = appearanceGrade;
+bodyElement.setAttribute("data-tooltip", "Body appearance affects reproductive potential.");
+
+// Education & Job
+const edu = localStorage.getItem("finalEducation") || "N/A";
+const major = localStorage.getItem("finalMajor") || "N/A";
+const job = localStorage.getItem("currentJob") || "N/A";
+document.getElementById("educationResult").textContent = "Education: " + edu;
+document.getElementById("majorResult").textContent = "Major: " + major;
+document.getElementById("jobResult").textContent = "Job: " + job;
+
+// Education & Job scoring based on ability to support reproduction
+const educationPoints = { "High School": -1, "Bachelor": 0, "Master": 1, "PhD": 1, "Other": 0 };
+const majorPoints = { "Computer Science": 1, "Engineering": 1, "Business": 1, "Fine Arts": -1, "Design": -1, "Psychology": -1, "Other": 0 };
+const jobPoints = { "Developer": 1, "Designer": 1, "Researcher": 1, "Artist": -1, "Student": -1, "Unemployed": -1, "Other": 0 };
+
+const stage3Score = (educationPoints[edu] || 0) + (majorPoints[major] || 0) + (jobPoints[job] || 0);
+const eduGrade = getRelativeGrade(stage3Score, -3, 3);
+document.getElementById("eduGrade").textContent = eduGrade;
+document.getElementById("eduGrade").setAttribute("data-tooltip", "Higher education, major, and job increase ability to fund a child.");
+
+// Financial Status
+const houses = parseInt(localStorage.getItem("numHouses")) || 0;
+const cars = parseInt(localStorage.getItem("numCars")) || 0;
+const debt = localStorage.getItem("hasDebt") === "true";
+document.getElementById("housesResult").textContent = "Number of Houses: " + houses;
+document.getElementById("carsResult").textContent = "Number of Cars: " + cars;
+document.getElementById("debtResult").textContent = "Debt: " + (debt ? "Yes" : "No");
+
+const finPoints = houses + cars + (debt ? -2 : 0);
+const finGrade = getRelativeGrade(finPoints, -2, 4);
+document.getElementById("finGrade").textContent = finGrade;
+document.getElementById("finGrade").setAttribute("data-tooltip", "Financial stability increases ability to fund child.");
+
+// Stage 5 – Fertility
+const plannedKids = parseInt(localStorage.getItem("plannedKids")) || 0;
+const sexualActivity = localStorage.getItem("sexualActivity") || "N/A";
+const attempted = localStorage.getItem("attemptedConception") || "N/A";
+const fertilityIssues = localStorage.getItem("fertilityIssues") || "N/A";
+
+document.getElementById("plannedKidsResult").textContent = "Planned Children: " + plannedKids;
+document.getElementById("sexualActivityResult").textContent = "Sexual Activity: " + sexualActivity;
+document.getElementById("attemptedResult").textContent = "Previously Attempted Conception: " + attempted;
+document.getElementById("fertilityIssuesResult").textContent = "Fertility Issues: " + fertilityIssues;
+
+// Fertility grading
+let fertilityPoints = plannedKids; // +1 per planned kid
+if(sexualActivity === "high") fertilityPoints += 2;
+else if(sexualActivity === "medium") fertilityPoints += 1;
+else if(sexualActivity === "low") fertilityPoints += 0;
+else if(sexualActivity === "none") fertilityPoints -= 2;
+
+if(attempted === "yes") fertilityPoints += 1;
+
+if(fertilityIssues === "minor") fertilityPoints -= 1;
+else if(fertilityIssues === "major") fertilityPoints -= 3;
+
+const fertilityGrade = getRelativeGrade(fertilityPoints, 0, 8);
+document.getElementById("fertilityGrade").textContent = fertilityGrade;
+document.getElementById("fertilityGrade").setAttribute("data-tooltip", "Higher planned children, frequent sexual activity, and no fertility issues indicate higher reproductive potential.");
+
+// Final grade
+const gradeValues = { "A":4, "B":3, "C":2, "D":1, "F":0 };
+const avgValue = (
+  gradeValues[personalGrade]+
+  gradeValues[appearanceGrade]+
+  gradeValues[eduGrade]+
+  gradeValues[finGrade]+
+  gradeValues[fertilityGrade]
+)/5;
+
+const finalGrade = getRelativeGrade(avgValue, 0, 4);
+document.getElementById("finalGrade").textContent = finalGrade;
+
+// Next button
+document.getElementById("nextButton").onclick = () => {
+    localStorage.setItem("finalGrade", finalGrade);
+    window.location.href = `grade${finalGrade.toLowerCase()}.html`;
+};
+
+// Info modal
+const infoButton = document.getElementById("infoButton");
+const infoModal = document.getElementById("infoModal");
+const closeModal = document.getElementById("closeModal");
+infoButton.onclick = () => infoModal.style.display='flex';
+closeModal.onclick = () => infoModal.style.display='none';
+infoModal.onclick = e => { if(e.target === infoModal) infoModal.style.display='none'; };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade D Lovers</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      font-family: gu;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url(background.webp);
+      background-size: cover;
+      background-position: center;
+    }
+
+    @font-face {
+      font-family: gu;
+      src: url(ChosunGu.TTF);
+    }
+
+    .loverCard {
+      background: radial-gradient(circle, white, #feedf3);
+      padding: 4vh 4vw;
+      border-radius: 1.5vh;
+      box-shadow: 0 0 1.5vh #fab6df;
+      width: 60vw;
+      color: #fab6df;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .leftSection {
+      width: 35%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .characterContainer {
+      width: 100%;
+      height: 55vh;
+      border-radius: 1vh;
+      border: 0.2vh solid #fab6df;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .characterContainer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease;
+    }
+
+    .rightSection {
+      width: 65%;
+      padding-left: 4vw;
+    }
+
+    .rightSection h2 {
+      text-align: center;
+      font-size: 3vh;
+      margin-bottom: 2vh;
+      transition: opacity 0.5s ease;
+    }
+
+    .category {
+      margin-top: 2vh;
+    }
+
+    .category h3 {
+      font-size: 2.2vh;
+      border-bottom: 0.2vh solid #fab6df;
+      padding-bottom: 0.5vh;
+      margin-bottom: 1vh;
+      transition: opacity 0.5s ease;
+    }
+
+    .category p {
+      font-size: 1.8vh;
+      margin: 0.5vh 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .finalGrade {
+      font-size: 2.4vh;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 2vh;
+      transition: opacity 0.5s ease;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 5vw;
+      cursor: pointer;
+      z-index: 10;
+      filter: drop-shadow(0 0 0.2vw #fab6df);
+    }
+
+    #leftArrow {
+      left: 12vw;
+    }
+
+    #rightArrow {
+      right: 12vw;
+    }
+
+    .purchaseBtn {
+      background: #fab6df;
+      border: none;
+      padding: 1.2vh 2vw;
+      font-size: 2vh;
+      border-radius: 1vh;
+      cursor: pointer;
+      margin-top: 2vh;
+      width: 100%;
+      color: white;
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <img id="leftArrow" class="arrow" src="left.webp" alt="Previous">
+  <img id="rightArrow" class="arrow" src="right.webp" alt="Next">
+
+  <div class="loverCard">
+    <div class="leftSection">
+      <div class="characterContainer">
+        <img id="characterImage" src="">
+      </div>
+    </div>
+
+    <div class="rightSection">
+      <h2 id="loverName">Tired Office Worker</h2>
+
+      <div class="category" id="personalInfo">
+        <h3>Personal Info</h3>
+        <p id="nameResult"></p>
+        <p id="genderResult"></p>
+        <p id="ageResult"></p>
+        <p>Grade: <span id="ageGrade"></span></p>
+      </div>
+
+      <div class="category" id="eduJob">
+        <h3>Education & Job</h3>
+        <p id="educationResult"></p>
+        <p id="majorResult"></p>
+        <p id="jobResult"></p>
+        <p>Grade: <span id="eduGrade"></span></p>
+      </div>
+
+      <div class="category" id="financial">
+        <h3>Financial Status</h3>
+        <p id="housesResult"></p>
+        <p id="carsResult"></p>
+        <p id="debtResult"></p>
+        <p>Grade: <span id="finGrade"></span></p>
+      </div>
+
+      <div class="finalGrade">
+        Final Average Grade: <span id="finalGrade">D</span>
+      </div>
+
+      <button class="purchaseBtn" id="purchaseBtn">Purchase This Lover</button>
+    </div>
+  </div>
+
+  <script>
+    const lovers = [
+      {
+        image: "custom1.webp", // <- put any image you want here
+        name: "Daye Kim", gender: "Female", age: 32,
+        education: "Bachelor", major: "Business", job: "Administrative Officer",
+        houses: 0, cars: 1, debt: false
+      },
+      {
+        image: "custom2.webp",
+        name: "Soojin Choi", gender: "Female", age: 30,
+        education: "Bachelor", major: "Engineering", job: "Illustrator",
+        houses: 1, cars: 0, debt: true
+      },
+      {
+        image: "custom3.webp",
+        name: "Heesoo Lee", gender: "Male", age: 35,
+        education: "Bachelor", major: "Engineering", job: "Patent Attorney",
+        houses: 0, cars: 1, debt: false
+      }
+    ];
+
+    let index = 0;
+    const elements = {
+      characterImage: document.getElementById("characterImage"),
+      loverName: document.getElementById("loverName"),
+      nameResult: document.getElementById("nameResult"),
+      genderResult: document.getElementById("genderResult"),
+      ageResult: document.getElementById("ageResult"),
+      ageGrade: document.getElementById("ageGrade"),
+      educationResult: document.getElementById("educationResult"),
+      majorResult: document.getElementById("majorResult"),
+      jobResult: document.getElementById("jobResult"),
+      eduGrade: document.getElementById("eduGrade"),
+      housesResult: document.getElementById("housesResult"),
+      carsResult: document.getElementById("carsResult"),
+      debtResult: document.getElementById("debtResult"),
+      finGrade: document.getElementById("finGrade"),
+      finalGrade: document.getElementById("finalGrade"),
+      purchaseBtn: document.getElementById("purchaseBtn")
+    };
+
+    function getAgeGrade(age) {
+      if (age <= 20) return "A";
+      if (age <= 25) return "B";
+      if (age <= 30) return "C";
+      if (age <= 35) return "D";
+      return "F";
+    }
+
+    function getGenericGrade(score) {
+      if (score >= 5) return "A";
+      if (score >= 3) return "B";
+      if (score >= 1) return "C";
+      return "D"; // default low
+    }
+
+    function displayLover(i) {
+      const l = lovers[i];
+      elements.characterImage.src = l.image;
+      elements.loverName.textContent = l.name;
+
+      elements.nameResult.textContent = "Name: " + l.name;
+      elements.genderResult.textContent = "Gender: " + l.gender;
+      elements.ageResult.textContent = "Age: " + l.age;
+      elements.ageGrade.textContent = getAgeGrade(l.age);
+
+      let eduScore = (l.education === "Bachelor" ? 0 : 1) + (["Administrative Officer", "Patent Attorney"].includes(l.job) ? 1 : 0);
+      elements.educationResult.textContent = "Education: " + l.education;
+      elements.majorResult.textContent = "Major: " + l.major;
+      elements.jobResult.textContent = "Job: " + l.job;
+      elements.eduGrade.textContent = getGenericGrade(eduScore);
+
+      let finScore = l.houses + l.cars - (l.debt ? 2 : 0);
+      elements.housesResult.textContent = "Number of Houses: " + l.houses;
+      elements.carsResult.textContent = "Number of Cars: " + l.cars;
+      elements.debtResult.textContent = "Debt: " + (l.debt ? "Yes" : "No");
+      elements.finGrade.textContent = getGenericGrade(finScore);
+
+      elements.finalGrade.textContent = "D"; // always D
+    }
+
+    function animateSwitch(newIndex) {
+      Object.values(elements).forEach(el => el.style.opacity = 0);
+      setTimeout(() => {
+        index = newIndex;
+        displayLover(index);
+        Object.values(elements).forEach(el => el.style.opacity = 1);
+      }, 300);
+    }
+
+    displayLover(index);
+
+    document.getElementById("leftArrow").onclick = () => animateSwitch((index - 1 + lovers.length) % lovers.length);
+    document.getElementById("rightArrow").onclick = () => animateSwitch((index + 1) % lovers.length);
+
+    elements.purchaseBtn.onclick = () => {
+      localStorage.setItem("purchasedLover", lovers[index].name);
+      alert("You selected: " + lovers[index].name);
+    };
+  </script>
+
+</body>
+
+</html>

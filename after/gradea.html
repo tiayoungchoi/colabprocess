@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade A Lover</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            font-family: gu;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(background.webp);
+            background-size: cover;
+            background-position: center;
+        }
+
+        @font-face {
+            font-family: gu;
+            src: url(ChosunGu.TTF);
+        }
+
+        .loverCard {
+            background: radial-gradient(circle, white, #feedf3);
+            padding: 4vh 4vw;
+            border-radius: 1.5vh;
+            box-shadow: 0 0 1.5vh #fab6df;
+            width: 60vw;
+            color: #fab6df;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .leftSection {
+            width: 35%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .characterContainer {
+            width: 100%;
+            height: 55vh;
+            border-radius: 1vh;
+            border: 0.2vh solid #fab6df;
+            overflow: hidden;
+        }
+
+        .characterContainer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rightSection {
+            width: 65%;
+            padding-left: 4vw;
+        }
+
+        .rightSection h2 {
+            text-align: center;
+            font-size: 3vh;
+            margin-bottom: 2vh;
+        }
+
+        .category {
+            margin-top: 2vh;
+        }
+
+        .category h3 {
+            font-size: 2.2vh;
+            border-bottom: 0.2vh solid #fab6df;
+            padding-bottom: 0.5vh;
+            margin-bottom: 1vh;
+        }
+
+        .category p {
+            font-size: 1.8vh;
+            margin: 0.5vh 0;
+        }
+
+        .finalGrade {
+            font-size: 2.4vh;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 2vh;
+        }
+
+        .purchaseBtn {
+            background: #fab6df;
+            border: none;
+            padding: 1.2vh 2vw;
+            font-size: 2vh;
+            border-radius: 1vh;
+            cursor: pointer;
+            margin-top: 2vh;
+            width: 100%;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loverCard">
+        <div class="leftSection">
+            <div class="characterContainer">
+                <img src="a1.webp" alt="Grade A Lover">
+            </div>
+        </div>
+
+        <div class="rightSection">
+            <h2>Jingyu Kim</h2>
+
+            <div class="category">
+                <h3>Personal Info</h3>
+                <p>Name: Jingyu Kim</p>
+                <p>Gender: Male</p>
+                <p>Age: 32</p>
+                <p>Grade: A</p>
+            </div>
+
+            <div class="category">
+                <h3>Appearance</h3>
+                <p>Body: Fit, 180cm / 75kg</p>
+                <p>Grade: A</p>
+            </div>
+
+            <div class="category">
+                <h3>Education & Job</h3>
+                <p>Education: Master</p>
+                <p>Major: Korean Medicine</p>
+                <p>Job: Korean Medicine Doctor</p>
+                <p>Grade: A</p>
+            </div>
+
+            <div class="category">
+                <h3>Financial Status</h3>
+                <p>Number of Houses: 1</p>
+                <p>Number of Cars: 1</p>
+                <p>Debt: No</p>
+                <p>Grade: A</p>
+            </div>
+
+            <div class="category">
+                <h3>Fertility Assessment</h3>
+                <p>Planned Children: 2</p>
+                <p>Sexual Activity: Frequently</p>
+                <p>Attempted Conception: Yes</p>
+                <p>Fertility Issues: None</p>
+                <p>Grade: A</p>
+            </div>
+
+            <div class="finalGrade">
+                Final Average Grade: A
+            </div>
+
+            <button class="purchaseBtn" onclick="alert('You selected: Jingyu Kim')">Purchase This Lover</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

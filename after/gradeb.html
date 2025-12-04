@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade B Lovers</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            font-family: gu;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(background.webp);
+            background-size: cover;
+            background-position: center;
+        }
+
+        @font-face {
+            font-family: gu;
+            src: url(ChosunGu.TTF);
+        }
+
+        .loverCard {
+            background: radial-gradient(circle, white, #feedf3);
+            padding: 4vh 4vw;
+            border-radius: 1.5vh;
+            box-shadow: 0 0 1.5vh rgba(0, 0, 0, 0.2);
+            width: 60vw;
+            color: #fab6df;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .leftSection {
+            width: 35%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .characterContainer {
+            width: 100%;
+            height: 55vh;
+            border-radius: 1vh;
+            border: 0.2vh solid #fab6df;
+            overflow: hidden;
+        }
+
+        .characterContainer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+
+        .rightSection {
+            width: 65%;
+            padding-left: 4vw;
+        }
+
+        .rightSection h2 {
+            text-align: center;
+            font-size: 3vh;
+            margin-bottom: 2vh;
+            transition: opacity 0.5s ease;
+        }
+
+        .category {
+            margin-top: 2vh;
+        }
+
+        .category h3 {
+            font-size: 2.2vh;
+            border-bottom: 0.2vh solid #fab6df;
+            padding-bottom: 0.5vh;
+            margin-bottom: 1vh;
+            transition: opacity 0.5s ease;
+        }
+
+        .category p {
+            font-size: 1.8vh;
+            margin: 0.5vh 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .grade {
+            font-weight: bold;
+            color: #fab6df;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .grade::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: 125%;
+            transform: translateX(-50%);
+            background: #fab6df;
+            color: white;
+            padding: 0.3vh 0.8vw;
+            border-radius: 0.8vh;
+            white-space: nowrap;
+            font-size: 1.6vh;
+            box-shadow: 0 0 0.5vh rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .grade:hover::after {
+            opacity: 1;
+        }
+
+        .finalGrade {
+            font-size: 2.4vh;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 2vh;
+            transition: opacity 0.5s ease;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5vw;
+            cursor: pointer;
+            z-index: 10;
+            filter: drop-shadow(0 0 0.2vw #fab6df);
+        }
+
+        #leftArrow {
+            left: 12vw;
+        }
+
+        #rightArrow {
+            right: 12vw;
+        }
+
+        .purchaseBtn {
+            background: #fab6df;
+            border: none;
+            padding: 1.2vh 2vw;
+            font-size: 2vh;
+            border-radius: 1vh;
+            cursor: pointer;
+            margin-top: 2vh;
+            width: 100%;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img id="leftArrow" class="arrow" src="left.webp" alt="Previous">
+    <img id="rightArrow" class="arrow" src="right.webp" alt="Next">
+
+    <div class="loverCard">
+        <div class="leftSection">
+            <div class="characterContainer">
+                <img id="characterImage" src="">
+            </div>
+        </div>
+
+        <div class="rightSection">
+            <h2 id="loverName"></h2>
+
+            <div class="category" id="personalInfo">
+                <h3>Personal Info</h3>
+                <p id="nameResult"></p>
+                <p id="genderResult"></p>
+                <p id="ageResult"></p>
+                <p>Grade: <span class="grade" id="ageGrade" data-tooltip=""></span></p>
+            </div>
+
+            <div class="category" id="appearanceInfo">
+                <h3>Appearance</h3>
+                <p id="bodyResult"></p>
+                <p>Grade: <span class="grade" id="bodyGrade" data-tooltip=""></span></p>
+            </div>
+
+            <div class="category" id="eduJob">
+                <h3>Education & Job</h3>
+                <p id="educationResult"></p>
+                <p id="majorResult"></p>
+                <p id="jobResult"></p>
+                <p>Grade: <span class="grade" id="eduGrade" data-tooltip=""></span></p>
+            </div>
+
+            <div class="category" id="financial">
+                <h3>Financial Status</h3>
+                <p id="housesResult"></p>
+                <p id="carsResult"></p>
+                <p id="debtResult"></p>
+                <p>Grade: <span class="grade" id="finGrade" data-tooltip=""></span></p>
+            </div>
+
+            <div class="category" id="fertilityInfo">
+                <h3>Fertility Assessment</h3>
+                <p id="plannedKidsResult"></p>
+                <p id="sexualActivityResult"></p>
+                <p id="attemptedResult"></p>
+                <p id="fertilityIssuesResult"></p>
+                <p>Grade: <span class="grade" id="fertGrade" data-tooltip=""></span></p>
+            </div>
+
+            <div class="finalGrade">
+                Final Average Grade: <span id="finalGrade">B</span>
+            </div>
+
+            <button class="purchaseBtn" id="purchaseBtn">Purchase This Lover</button>
+        </div>
+    </div>
+
+    <script>
+        const lovers = [
+            { image: "b1.webp", name: "Mijin Kim", gender: "Female", age: 37, body: "Fit, 165cm / 55kg", education: "Master", major: "Law", job: "Lawyer", houses: 0, cars: 1, debt: false, plannedKids: 2, sexualActivity: "Occasionally", attempted: "Yes", fertilityIssues: "None" },
+            { image: "b2.webp", name: "Hwajung Yoo", gender: "Female", age: 41, body: "Slim, 160cm / 50kg", education: "Bachelor", major: "Business", job: "Office Worker", houses: 1, cars: 0, debt: false, plannedKids: 1, sexualActivity: "Rarely", attempted: "No", fertilityIssues: "Minor" },
+            { image: "b3.webp", name: "Sejong Noh", gender: "Male", age: 37, body: "Average, 175cm / 70kg", education: "Bachelor", major: "Dentistry", job: "Dentist", houses: 0, cars: 1, debt: false, plannedKids: 3, sexualActivity: "Frequently", attempted: "Yes", fertilityIssues: "None" }
+        ];
+
+        let index = 0;
+
+        const elements = {
+            characterImage: document.getElementById("characterImage"),
+            loverName: document.getElementById("loverName"),
+            nameResult: document.getElementById("nameResult"),
+            genderResult: document.getElementById("genderResult"),
+            ageResult: document.getElementById("ageResult"),
+            ageGrade: document.getElementById("ageGrade"),
+            bodyResult: document.getElementById("bodyResult"),
+            bodyGrade: document.getElementById("bodyGrade"),
+            educationResult: document.getElementById("educationResult"),
+            majorResult: document.getElementById("majorResult"),
+            jobResult: document.getElementById("jobResult"),
+            eduGrade: document.getElementById("eduGrade"),
+            housesResult: document.getElementById("housesResult"),
+            carsResult: document.getElementById("carsResult"),
+            debtResult: document.getElementById("debtResult"),
+            finGrade: document.getElementById("finGrade"),
+            plannedKidsResult: document.getElementById("plannedKidsResult"),
+            sexualActivityResult: document.getElementById("sexualActivityResult"),
+            attemptedResult: document.getElementById("attemptedResult"),
+            fertilityIssuesResult: document.getElementById("fertilityIssuesResult"),
+            fertGrade: document.getElementById("fertGrade"),
+            finalGrade: document.getElementById("finalGrade"),
+            purchaseBtn: document.getElementById("purchaseBtn")
+        };
+
+        function getAgeGrade(age) {
+            let grade = age >= 20 && age <= 35 ? "A" : age <= 45 ? "B" : "C";
+            let tooltip = age >= 20 && age <= 35 ? "Ideal reproductive age" : age <= 45 ? "Still can reproduce but less ideal" : "Too old for reproduction";
+            return { grade, tooltip };
+        }
+
+        function getBodyGrade(body) {
+            return { grade: "B", tooltip: "Good body for reproductive health" };
+        }
+
+        function getEduGrade(education, job) {
+            let score = (education === "PhD" ? 2 : (education === "Master" ? 1 : 0)) +
+                        (["CEO", "Patent Attorney", "Lawyer", "Marketing Manager", "Art Director"].includes(job) ? 1 : 0);
+            let grade = score >= 2 ? "A" : score === 1 ? "B" : "C";
+            let tooltip = "High education and high-paying job improve reproductive stability";
+            return { grade, tooltip };
+        }
+
+        function getFinGrade(houses, cars, debt) {
+            let score = houses + cars - (debt ? 1 : 0);
+            let grade = score >= 2 ? "A" : score === 1 ? "B" : "C";
+            let tooltip = "Financial stability supports future family planning";
+            return { grade, tooltip };
+        }
+
+        function getFertGrade(plannedKids, sexualActivity, attempted, fertilityIssues) {
+            let score = plannedKids;
+            if (sexualActivity === "Frequently") score += 2;
+            else if (sexualActivity === "Occasionally") score += 1;
+            if (attempted === "Yes") score += 1;
+            if (fertilityIssues === "Minor") score -= 1;
+            if (fertilityIssues === "Major") score -= 3;
+            let grade = score >= 4 ? "A" : score >= 2 ? "B" : "C";
+            let tooltip = "Fertility assessment based on plans and health conditions";
+            return { grade, tooltip };
+        }
+
+        function displayLover(i) {
+            const l = lovers[i];
+            elements.characterImage.src = l.image;
+            elements.loverName.textContent = l.name;
+
+            // Personal Info
+            elements.nameResult.textContent = "Name: " + l.name;
+            elements.genderResult.textContent = "Gender: " + l.gender;
+            elements.ageResult.textContent = "Age: " + l.age;
+            const age = getAgeGrade(l.age);
+            elements.ageGrade.textContent = age.grade;
+            elements.ageGrade.setAttribute("data-tooltip", age.tooltip);
+
+            // Appearance
+            elements.bodyResult.textContent = "Body: " + l.body;
+            const body = getBodyGrade(l.body);
+            elements.bodyGrade.textContent = body.grade;
+            elements.bodyGrade.setAttribute("data-tooltip", body.tooltip);
+
+            // Education & Job
+            elements.educationResult.textContent = "Education: " + l.education;
+            elements.majorResult.textContent = "Major: " + l.major;
+            elements.jobResult.textContent = "Job: " + l.job;
+            const edu = getEduGrade(l.education, l.job);
+            elements.eduGrade.textContent = edu.grade;
+            elements.eduGrade.setAttribute("data-tooltip", edu.tooltip);
+
+            // Financial
+            elements.housesResult.textContent = "Number of Houses: " + l.houses;
+            elements.carsResult.textContent = "Number of Cars: " + l.cars;
+            elements.debtResult.textContent = "Debt: " + (l.debt ? "Yes" : "No");
+            const fin = getFinGrade(l.houses, l.cars, l.debt);
+            elements.finGrade.textContent = fin.grade;
+            elements.finGrade.setAttribute("data-tooltip", fin.tooltip);
+
+            // Fertility
+            elements.plannedKidsResult.textContent = "Planned Children: " + l.plannedKids;
+            elements.sexualActivityResult.textContent = "Sexual Activity: " + l.sexualActivity;
+            elements.attemptedResult.textContent = "Attempted Conception: " + l.attempted;
+            elements.fertilityIssuesResult.textContent = "Fertility Issues: " + l.fertilityIssues;
+            const fert = getFertGrade(l.plannedKids, l.sexualActivity, l.attempted, l.fertilityIssues);
+            elements.fertGrade.textContent = fert.grade;
+            elements.fertGrade.setAttribute("data-tooltip", fert.tooltip);
+
+            // Final Grade (average of grades)
+            const gradeMap = { "A": 4, "B": 3, "C": 2, "D": 1, "F": 0 };
+            const avg = (gradeMap[age.grade] + gradeMap[body.grade] + gradeMap[edu.grade] + gradeMap[fin.grade] + gradeMap[fert.grade]) / 5;
+            let final = avg >= 3.5 ? "A" : avg >= 2.5 ? "B" : avg >= 1.5 ? "C" : "D";
+            elements.finalGrade.textContent = final;
+        }
+
+        function animateSwitch(newIndex) {
+            Object.values(elements).forEach(el => el.style.opacity = 0);
+            setTimeout(() => {
+                index = newIndex;
+                displayLover(index);
+                Object.values(elements).forEach(el => el.style.opacity = 1);
+            }, 300);
+        }
+
+        displayLover(index);
+
+        document.getElementById("leftArrow").onclick = () => animateSwitch((index - 1 + lovers.length) % lovers.length);
+        document.getElementById("rightArrow").onclick = () => animateSwitch((index + 1) % lovers.length);
+
+        elements.purchaseBtn.onclick = () => {
+            localStorage.setItem("purchasedLover", lovers[index].name);
+            alert("You selected: " + lovers[index].name);
+        };
+    </script>
+
+</body>
+
+</html>

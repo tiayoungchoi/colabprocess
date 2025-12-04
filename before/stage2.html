@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Body & Height Points Checker</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url(background.webp);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .container {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+      padding: 25px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      border: 3px solid blue;
+      color: blue;
+      max-width: 400px;
+      margin: 30px auto;
+    }
+
+    button {
+      padding: 10px 18px;
+      margin: 10px 5px 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      color: white;
+    }
+
+    #fatBtn { background-color: #e74c3c; }
+    #fatBtn:hover { background-color: #c0392b; }
+    #thinBtn { background-color: #2ecc71; }
+    #thinBtn:hover { background-color: #27ae60; }
+    #tallBtn { background-color: #3498db; }
+    #tallBtn:hover { background-color: #2980b9; }
+    #smallBtn { background-color: #f1c40f; color: black; }
+    #smallBtn:hover { background-color: #d4ac0d; }
+    #nextBtn {
+      display: none;
+      background-color: #9b59b6;
+    }
+    #nextBtn:hover { background-color: #8e44ad; }
+
+    .profile { border: 1px solid blue; margin-top: 10px; width: 120px; height: 120px; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <div class="container" id="stage2">
+    <h2>Stage 2</h2>
+    <p id="pointsDisplay"></p>
+
+    <p>Choose your body type:</p>
+    <button id="fatBtn" onclick="chooseBody('fat')">Fat</button>
+    <button id="thinBtn" onclick="chooseBody('thin')">Thin</button>
+
+    <div id="heightSection" style="display: none;">
+      <p>Now choose your height:</p>
+      <button id="tallBtn" onclick="chooseHeight('tall')">Tall</button>
+      <button id="smallBtn" onclick="chooseHeight('small')">Small</button>
+    </div>
+
+    <p id="result"></p>
+    <button id="nextBtn" onclick="goNext()">Next</button>
+  </div>
+
+  <script>
+    let points = parseInt(localStorage.getItem("points")) || 0;
+    let bodyChosen = false;
+    let heightChosen = false;
+
+    // Show initial points (from previous stage or zero)
+    document.getElementById("pointsDisplay").textContent =
+      `Your current total points: ${points} point${Math.abs(points) !== 1 ? 's' : ''}.`;
+
+    function chooseBody(option) {
+      if (bodyChosen) return;
+      bodyChosen = true;
+
+      let pointsChange = (option === 'fat') ? -1 : 2;
+      points += pointsChange;
+
+      document.getElementById("result").textContent =
+        `You chose '${option}' → ${pointsChange > 0 ? '+' : ''}${pointsChange} point${Math.abs(pointsChange) !== 1 ? 's' : ''}.`;
+
+      localStorage.setItem("bodyChoice", option);
+      localStorage.setItem("points", points);
+
+      document.getElementById("pointsDisplay").textContent =
+        `Your total so far: ${points} point${Math.abs(points) !== 1 ? 's' : ''}.`;
+
+      document.getElementById("heightSection").style.display = "block";
+    }
+
+    function chooseHeight(option) {
+      if (heightChosen) return;
+      heightChosen = true;
+
+      let pointsChange = (option === 'tall') ? 2 : -1;
+      points += pointsChange;
+
+      document.getElementById("result").textContent +=
+        ` You chose '${option}' → ${pointsChange > 0 ? '+' : ''}${pointsChange} point${Math.abs(pointsChange) !== 1 ? 's' : ''}.`;
+
+      localStorage.setItem("heightChoice", option);
+      localStorage.setItem("points", points);
+
+      document.getElementById("pointsDisplay").textContent =
+        `✅ Your FINAL total points after Stage 2: ${points} point${Math.abs(points) !== 1 ? 's' : ''}.`;
+
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function goNext() {
+      window.location.href = "stage3.html"; // Redirect to stage 3
+    }
+  </script>
+</body>
+</html>

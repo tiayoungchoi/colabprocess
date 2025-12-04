@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 3 - Job & Major Selection</title>
+  <style>
+    html {
+        background-image: url(background.webp);
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        height: 100vh;
+        margin: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    select {
+      padding: 8px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      color: white;
+      background-color: #3498db;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #nextBtn {
+      display: none;
+      background-color: #9b59b6;
+    }
+    #nextBtn:hover {
+      background-color: #8e44ad;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Stage 3 - Job & Major Selection</h2>
+    <p id="pointsDisplay"></p>
+
+    <label for="majorSelect">Select your university major:</label><br>
+    <select id="majorSelect">
+      <option value="">--Select Major--</option>
+      <!-- STEM majors -->
+      <option value="Computer Science">Computer Science</option>
+      <option value="Engineering">Engineering</option>
+      <option value="Mathematics">Mathematics</option>
+      <option value="Physics">Physics</option>
+      <option value="Biology">Biology</option>
+      <option value="Chemistry">Chemistry</option>
+      <option value="Information Technology">Information Technology</option>
+      <!-- Arts/Humanities -->
+      <option value="History">History</option>
+      <option value="English Literature">English Literature</option>
+      <option value="Philosophy">Philosophy</option>
+      <option value="Fine Arts">Fine Arts</option>
+      <option value="Languages">Languages</option>
+      <option value="Sociology">Sociology</option>
+      <option value="Psychology">Psychology</option>
+    </select>
+
+    <br><br>
+
+    <label for="jobSelect">Select your current job:</label><br>
+    <select id="jobSelect">
+      <option value="">--Select Job--</option>
+      <option value="Software Developer">Software Developer</option>
+      <option value="Engineer">Engineer</option>
+      <option value="Doctor">Doctor</option>
+      <option value="Lawyer">Lawyer</option>
+      <option value="Researcher">Researcher</option>
+      <option value="Accountant">Accountant</option>
+      <option value="Teacher">Teacher</option>
+      <option value="Nurse">Nurse</option>
+      <option value="Artist">Artist</option>
+      <option value="Writer">Writer</option>
+      <option value="Designer">Designer</option>
+      <option value="Student">Student</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <br>
+    <button onclick="calculatePoints()">Submit</button>
+    <button id="nextBtn" onclick="goNext()">Next</button>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+  // Load total points from Stage 2
+  let points = parseInt(localStorage.getItem("points")) || 0;
+  document.getElementById("pointsDisplay").textContent =
+    `Your current total points: ${points} point${Math.abs(points) !== 1 ? 's' : ''}.`;
+
+  const stemMajors = ["Computer Science", "Engineering", "Mathematics", "Physics", "Biology", "Chemistry", "Information Technology"];
+  const artsMajors = ["History", "English Literature", "Philosophy", "Fine Arts", "Languages", "Sociology", "Psychology"];
+
+  const highWageJobs = ["Software Developer", "Engineer", "Doctor", "Lawyer", "Researcher", "Accountant"];
+  const lowWageJobs = ["Teacher", "Nurse", "Artist", "Writer", "Designer", "Student", "Other"];
+
+  function calculatePoints() {
+    const major = document.getElementById("majorSelect").value;
+    const job = document.getElementById("jobSelect").value;
+
+    if (!major || !job) {
+      document.getElementById("result").textContent = "Please select both a major and a job.";
+      return;
+    }
+
+    let pointsChange = 0;
+
+    // Points from major
+    if (stemMajors.includes(major)) {
+      pointsChange += 2;
+    } else if (artsMajors.includes(major)) {
+      pointsChange -= 1;
+    }
+
+    // Points from job
+    if (highWageJobs.includes(job)) {
+      pointsChange += 2;
+    } else if (lowWageJobs.includes(job)) {
+      pointsChange -= 1;
+    }
+
+    points += pointsChange;
+
+    // Save points and selections
+    localStorage.setItem("points", points);
+    localStorage.setItem("major", major);
+    localStorage.setItem("job", job);
+
+    document.getElementById("result").textContent =
+      `You selected: Major - ${major}, Job - ${job}. Points change: ${pointsChange > 0 ? '+' : ''}${pointsChange}. Your total points now: ${points}.`;
+
+    // Show Next button after submit
+    document.getElementById("nextBtn").style.display = "inline-block";
+  }
+
+  function goNext() {
+    window.location.href = "stage4.html";
+  }
+</script>
+
+</body>
+</html>

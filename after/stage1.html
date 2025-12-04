@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Information Form</title>
+
+  <style>
+    html {
+      background-image: url(background.webp);
+      background-size: cover; 
+      background-position: center; 
+      background-repeat: no-repeat; 
+      height: 100vh;
+      margin: 0;
+    }
+
+    @font-face {
+      font-family: gu;
+      src: url(ChosunGu.TTF);
+    }
+
+    body {
+      font-family: gu;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+    }
+
+    .container {
+      background: radial-gradient(circle, white, #feedf3);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 1.5vh #fab6df;
+      width: 300px;
+      color: #fab6df;
+      text-align: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      background-color: #fab6df;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* INFO BUTTON */
+    #infoButton {
+      position: fixed;
+      top: 1vh;
+      right: 1vw;
+      width: 4vw;
+      min-width: 30px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    /* MODAL BACKDROP */
+    #infoModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    /* MODAL CONTENT */
+    #infoContent {
+      background: #ffffff;
+      padding: 3vh 3vw;
+      border-radius: 1vh;
+      width: 50vw;
+      max-width: 600px;
+      text-align: center;
+      color: #fab6df;
+      font-size: 2vh;
+      box-shadow: 0 0 1.5vh #fab6df;
+      position: relative;
+    }
+
+    #closeModal {
+      position: absolute;
+      top: 1vh;
+      right: 1vw;
+      font-size: 3vh;
+      cursor: pointer;
+      color: #fab6df;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Info Button -->
+  <img id="infoButton" src="info.webp" alt="Info">
+
+  <div class="container">
+    <h2>Profile</h2>
+    <p>Enter your details below:</p>
+
+    <form id="userForm">
+      <input type="text" id="name" name="name" placeholder="Name..." required>
+
+      <select id="gender" name="gender" required>
+        <option value="">Reproductive type...</option>
+        <option value="can_be_pregnant">Can be pregnant</option>
+        <option value="can_impregnate">Can impregnate</option>
+        <option value="both">Both</option>
+        <option value="neither">Neither</option>
+      </select>
+
+      <input type="number" id="age" name="age" min="0" max="120" placeholder="Age..." required>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal">
+    <div id="infoContent">
+      <span id="closeModal">&times;</span>
+      <h3>Why We Ask For This</h3>
+      <p>
+        The Ministry of Reproduction evaluates your eligibility based on your reproductive capability.<br><br>
+        Only citizens capable of reproduction are suitable for this program.<br>
+        If you cannot get pregnant or reproduce, you are not eligible.<br><br>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // FORM LOGIC
+    document.getElementById('userForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const gender = document.getElementById('gender').value;
+      const age = parseInt(document.getElementById('age').value);
+
+      // Not reproductively eligible
+      if (gender === "neither") {
+        alert("⚠ Ministry of Reproduction Notice:\n\nYou are not reproductively eligible.\nOnly citizens capable of reproduction may proceed.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      localStorage.setItem('userName', name);
+      localStorage.setItem('userGender', gender);
+      localStorage.setItem('userAge', age);
+
+      // NEW AGE POINTS SYSTEM (Reproduction-focused)
+      let agePoints = 0;
+
+      if (age >= 27 && age <= 32) {
+          agePoints = 3; // Ideal reproductive age
+      } else if ((age >= 22 && age < 27) || (age > 32 && age <= 37)) {
+          agePoints = 2; // Slightly less ideal
+      } else if ((age >= 18 && age < 22) || (age > 37 && age <= 40)) {
+          agePoints = 1; // Possible, but not optimal
+      } else {
+          agePoints = -2; // Too young or too old
+      }
+
+      localStorage.setItem('agePoints', agePoints);
+
+      // Proceed to next page
+      window.location.href = 'stage2.html';
+    });
+
+    // MODAL LOGIC
+    const infoButton = document.getElementById("infoButton");
+    const infoModal = document.getElementById("infoModal");
+    const closeModal = document.getElementById("closeModal");
+
+    infoButton.addEventListener("click", () => { infoModal.style.display = "flex"; });
+    closeModal.addEventListener("click", () => { infoModal.style.display = "none"; });
+    infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.style.display = "none"; });
+  </script>
+
+</body>
+</html>
